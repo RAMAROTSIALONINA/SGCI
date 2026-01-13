@@ -1,0 +1,277 @@
+/* Font Awesome Free 6.4.0 - Copié depuis CDN pour usage local */
+.fa {
+    font-family: var(--fa-style-family, "Font Awesome 6 Free");
+    font-weight: var(--fa-style, 900);
+}
+
+.fa-solid,
+.fas {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
+
+.fa-regular,
+.far {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 400;
+}
+
+.fa-light,
+.fal {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 300;
+}
+
+.fa-thin,
+.fat {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 100;
+}
+
+.fa-duotone,
+.fad {
+    font-family: "Font Awesome 6 Duotone";
+    font-weight: 900;
+}
+
+.fa-brands,
+.fab {
+    font-family: "Font Awesome 6 Brands";
+    font-weight: 400;
+}
+
+.fa-house::before {
+    content: "\f015";
+}
+
+.fa-store::before {
+    content: "\f54e";
+}
+
+.fa-warehouse::before {
+    content: "\f494";
+}
+
+.fa-money-bill-wave::before {
+    content: "\f53a";
+}
+
+.fa-chart-bar::before {
+    content: "\f080";
+}
+
+.fa-cog::before {
+    content: "\f013";
+}
+
+.fa-user-shield::before {
+    content: "\f505";
+}
+
+.fa-sign-out-alt::before {
+    content: "\f2f5";
+}
+
+.fa-search::before {
+    content: "\f002";
+}
+
+.fa-bell::before {
+    content: "\f0f3";
+}
+
+.fa-calendar-alt::before {
+    content: "\f073";
+}
+
+.fa-clock::before {
+    content: "\f017";
+}
+
+.fa-exclamation-triangle::before {
+    content: "\f071";
+}
+
+.fa-boxes::before {
+    content: "\f468";
+}
+
+.fa-shopping-cart::before {
+    content: "\f07a";
+}
+
+.fa-chart-line::before {
+    content: "\f201";
+}
+
+.fa-bolt::before {
+    content: "\f0e7";
+}
+
+.fa-clipboard-check::before {
+    content: "\f46c";
+}
+
+.fa-file-invoice-dollar::before {
+    content: "\f571";
+}
+
+.fa-exchange-alt::before {
+    content: "\f362";
+}
+
+.fa-check-double::before {
+    content: "\f560";
+}
+
+.fa-chart-pie::before {
+    content: "\f200";
+}
+
+.fa-user-cog::before {
+    content: "\f4fe";
+}
+
+.fa-history::before {
+    content: "\f1da";
+}
+
+.fa-box::before {
+    content: "\f466";
+}
+
+.fa-check-circle::before {
+    content: "\f058";
+}
+
+.fa-user-plus::before {
+    content: "\f234";
+}
+
+.fa-shield-alt::before {
+    content: "\f3ed";
+}
+
+.fa-user::before {
+    content: "\f007";
+}
+
+.fa-user-tie::before {
+    content: "\f508";
+}
+
+.fa-user-cog::before {
+    content: "\f4fe";
+}
+
+.fa-lock::before {
+    content: "\f023";
+}
+
+.fa-user-tag::before {
+    content: "\f507";
+}
+
+.fa-mobile-alt::before {
+    content: "\f3cd";
+}
+
+.fa-key::before {
+    content: "\f084";
+}
+
+.fa-sign-in-alt::before {
+    content: "\f2f6";
+}
+
+.fa-book::before {
+    content: "\f02d";
+}
+
+.fa-info-circle::before {
+    content: "\f05a";
+}
+
+.fa-home::before {
+    content: "\f015";
+}
+
+.fa-chevron-left::before {
+    content: "\f053";
+}
+
+.fa-chevron-right::before {
+    content: "\f054";
+}
+
+.fa-eye::before {
+    content: "\f06e";
+}
+
+.fa-edit::before {
+    content: "\f044";
+}
+
+.fa-plus-circle::before {
+    content: "\f055";
+}
+
+.fa-file-export::before {
+    content: "\f56e";
+}
+
+.fa-robot::before {
+    content: "\f544";
+}
+
+.fa-calendar-check::before {
+    content: "\f274";
+}
+
+.fa-play-circle::before {
+    content: "\f144";
+}
+
+.fa-save::before {
+    content: "\f0c7";
+}
+
+.fa-times::before {
+    content: "\f00d";
+}
+
+.fa-hospital::before {
+    content: "\f0f8";
+}
+
+.fa-clinic-medical::before {
+    content: "\f7f2";
+}
+
+.fa-mortar-pestle::before {
+    content: "\f5a7";
+}
+
+.fa-sync-alt::before {
+    content: "\f2f1";
+}
+
+.fa-cart-plus::before {
+    content: "\f217";
+}
+
+.fa-trash::before {
+    content: "\f1f8";
+}
+
+.fa-file-invoice::before {
+    content: "\f570";
+}
+
+.fa-arrow-right::before {
+    content: "\f061";
+}
+
+.fa-project-diagram::before {
+    content: "\f542";
+}
