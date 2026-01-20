@@ -15,11 +15,13 @@ from app.core.security.hashHelper import HashHelper
 
 from app.core.security.authHandler import AuthHandler
 
+import anyio
 import secrets
 
 from app.db.repository.twofaRepo import TwoFARepository
 
 from datetime import datetime, timezone, timedelta
+from app.service.emailService import send_otp_email
 
 ASSISTANT_ROLE = "assistant"
 
@@ -74,14 +76,19 @@ class UserService:
         expired_at = datetime.now(timezone.utc) + timedelta(minutes=OPT_TTL_MiNUTES)
 
         #stocke le code OTP en base
-        twofa_repo = TwoFARepository(session=self.__userRepository.session).create_code(
+        TwoFARepository(session=self.__userRepository.session).create_code(
             user_id=user.id,
             code_hash=opt_hash,
             expires_at=expired_at
         )
 
-        # envoi (DEV)
-        print(f"Code OTP pour verification 2FA: {opt}")
+        try:
+            anyio.run(send_otp_email, user.email, opt)
+        except Exception:
+            raise HTTPException(
+                status_code=500,
+                detail="Unable to send verification email."
+            )
 
         return {"message": "Code envoyer"}
     

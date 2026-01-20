@@ -15,6 +15,8 @@ from app.service.userService import UserService
 
 from app.db.schema.user import MessageOut, VerifyOtpIn, UserWithToken
 
+from fastapi import BackgroundTasks
+
 auth_router = APIRouter()
 
 
