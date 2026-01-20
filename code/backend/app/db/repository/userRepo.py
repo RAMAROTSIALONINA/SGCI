@@ -14,7 +14,7 @@ class UserRepository(BaseRepository):
     """
     Fournit des operations simples pour la table User.
     """
-    def create_user(self, user_data: UserInCreate, role: str | None = None):
+    def create_user(self, user_data: UserInCreate, role: str | None = None, isActive: bool = False, isVerified: bool = False) -> User:
         """
         Cree un utilisateur en base a partir des donnees recues.
         La methode enregistre, commit, puis renvoie l'objet cree.
@@ -22,6 +22,8 @@ class UserRepository(BaseRepository):
         payload = user_data.model_dump(exclude_none=True)
         if role is not None:
             payload["role"] = role
+        payload["is_active"] = isActive
+        payload["is_verified"] = isVerified
         new_user = User(**payload)
         self.session.add(instance=new_user)
         self.session.commit()

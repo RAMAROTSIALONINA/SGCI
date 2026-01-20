@@ -6,6 +6,8 @@ from app.core.database import Base, engine
 
 from app.db.models.user import User  # Import all models here
 
+from app.db.models.twofa_code import TwoFACode  # Import all models here
+
 
 def create_tables():
     """

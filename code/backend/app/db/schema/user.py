@@ -52,3 +52,18 @@ class UserWithToken(BaseModel):
     Reponse apres connexion: un token d'acces.
     """
     token: str
+
+class MessageOut(BaseModel):
+    """
+    Schema pour les messages simples.
+    Utile pour les reponses d'API.
+    """
+    message: str
+
+
+class VerifyOtpIn(BaseModel):
+    """
+    Donnees attendues pour verifier un code 2FA.
+    """
+    email: EmailStr
+    code: str
