@@ -27,6 +27,7 @@ export * from './pagination';
 export * from './scroll-area';
 export * from './separator';
 export * from './skeleton';
+export * from './mini-menu';
 export * from './alert';
 export * from './alert-dialog';
 export * from './spinner';

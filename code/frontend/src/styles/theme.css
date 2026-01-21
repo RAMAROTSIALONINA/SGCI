@@ -1,0 +1,61 @@
+:root {
+  color-scheme: light;
+  --pine-950: #051f20;
+  --pine-900: #0b2b26;
+  --pine-800: #163832;
+  --pine-700: #235347;
+  --pine-400: #8eb69b;
+  --pine-100: #daf1de;
+  --background: var(--pine-100);
+  --foreground: var(--pine-950);
+  --card: var(--pine-100);
+  --card-foreground: var(--pine-950);
+  --popover: var(--pine-100);
+  --popover-foreground: var(--pine-950);
+  --primary: var(--pine-700);
+  --primary-foreground: var(--pine-100);
+  --secondary: var(--pine-400);
+  --secondary-foreground: var(--pine-950);
+  --muted: rgb(142 182 155 / 0.22);
+  --muted-foreground: var(--pine-700);
+  --accent: rgb(142 182 155 / 0.35);
+  --accent-foreground: var(--pine-950);
+  --destructive: #ef4444;
+  --destructive-foreground: #f8fafc;
+  --border: rgb(35 83 71 / 0.2);
+  --input: rgb(35 83 71 / 0.25);
+  --ring: var(--pine-700);
+  --surface: rgb(218 241 222 / 0.9);
+  --surface-muted: rgb(142 182 155 / 0.2);
+  --shadow-soft: 0 1px 2px 0 rgb(5 31 32 / 0.08),
+    0 12px 24px -22px rgb(5 31 32 / 0.35);
+  --shadow-soft-lg: 0 18px 40px -24px rgb(5 31 32 / 0.45),
+    0 12px 30px -24px rgb(5 31 32 / 0.35);
+  --transition-smooth: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
