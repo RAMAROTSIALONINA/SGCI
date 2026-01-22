@@ -16,6 +16,7 @@ class UserInCreate(BaseModel):
     last_name: str
     email: EmailStr
     password: str
+    role_code: str | None = None
 
 
 class UserOutput(BaseModel):
@@ -67,3 +68,11 @@ class VerifyOtpIn(BaseModel):
     """
     email: EmailStr
     code: str
+
+
+class SeedUsersResult(BaseModel):
+    """
+    Statut apres insertion des utilisateurs par defaut.
+    """
+    created: int
+    skipped: int

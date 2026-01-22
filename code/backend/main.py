@@ -8,6 +8,8 @@ from fastapi import FastAPI, Depends
 from app.util.init_db import create_tables
 
 from app.routes.auth import auth_router
+from app.routes.roles import roles_router
+from app.routes.users import users_router
 
 from app.util.protectRoute import get_current_user
 
@@ -23,6 +25,8 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 app.include_router(auth_router, tags=["auth"], prefix="/auth")
+app.include_router(roles_router, tags=["roles"], prefix="/roles")
+app.include_router(users_router, tags=["users"], prefix="/users")
 
 
 @app.get("/health")
