@@ -2,10 +2,10 @@
 Modele SQLAlchemy pour la table des roles.
 Il decrit les colonnes qui seront creees en base.
 """
-from sqlalchemy import Column, Integer, String, Boolean
-from sqlalchemy.orm import relationship
 
 from app.core.database import Base
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy.orm import relationship
 
 
 class Role(Base):
@@ -13,6 +13,7 @@ class Role(Base):
     Represente un role en base de donnees.
     Chaque attribut devient une colonne dans la table "Roles".
     """
+
     __tablename__ = "Roles"
     id = Column(Integer, primary_key=True)
     code = Column(String(50), unique=True, index=True, nullable=False)
@@ -21,6 +22,7 @@ class Role(Base):
     level = Column(Integer, nullable=False)
     is_system = Column(Boolean, default=True, nullable=False)
     is_assistant = Column(Boolean, default=False, nullable=False)
+    created_by_id = Column(Integer, ForeignKey("Users.id"))
     permissions = relationship(
         "Permission",
         secondary="RolePermissions",

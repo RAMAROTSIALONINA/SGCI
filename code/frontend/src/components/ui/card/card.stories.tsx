@@ -1,13 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '.';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '.';
 
 const meta: Meta<typeof Card> = {
   title: 'UI/Card',
@@ -26,8 +19,8 @@ export const Basic: Story = {
       </CardHeader>
       <CardContent>
         <p className="text-sm text-muted-foreground">
-          Un bloc idéal pour mettre en avant un contenu clé avec une surface douce
-          et un léger flou de fond.
+          Un bloc idéal pour mettre en avant un contenu clé avec une surface douce et un léger flou
+          de fond.
         </p>
       </CardContent>
       <CardFooter className="justify-end">

@@ -6,43 +6,23 @@ Ce fichier expose une dependance FastAPI qui recupere l'utilisateur courant.
 from typing import Annotated, Union
 
 from fastapi import Depends, Header, HTTPException, status
-
 from sqlalchemy.orm import Session
 
-from app.core.security.authHandler import AuthHandler
-
-from app.service.userService import UserService
-from app.service.roleService import RoleService, is_superadmin_role
-
 from app.core.database import get_db
-
+from app.core.security.authHandler import AuthHandler
 from app.db.schema.user import UserOutput
+from app.service.roleService import RoleService
+from app.service.userService import UserService
+from app.util.roles.role_utils import ADMIN_ROLE_KEYS, is_superadmin_role, normalize_role
 
-AUTH_PREFIX = 'Bearer '
-
-ADMIN_ROLE_KEYS = {
-    "admin",
-    "admin_ubs",
-    "admin_c2a",
-    "admin_site",
-    "admin_acr",
-    "superadmin",
-    "super_admin",
-}
-
-
-def normalize_role(role: str | None) -> str:
-    """
-    Normalise un role pour la comparaison (minuscule, espaces -> underscore).
-    """
-    if not role:
-        return ""
-    return role.strip().lower().replace(" ", "_")
+AUTH_PREFIX = "Bearer "
 
 
 def get_current_user(
     session: Session = Depends(get_db),  # makany @ base de donnee
-    authorization: Annotated[Union[str, None], Header()] = None  # Mijery hoe ao ve le authorization 
+    authorization: Annotated[
+        Union[str, None], Header()
+    ] = None,  # Mijery hoe ao ve le authorization
 ) -> UserOutput:
     """
     Lit l'entete Authorization, verifie le token, et retourne l'utilisateur.
@@ -58,20 +38,13 @@ def get_current_user(
     if not authorization.startswith(AUTH_PREFIX):
         raise auth_exception
 
-    payload = AuthHandler.decode_jwt(token=authorization[len(AUTH_PREFIX):])
+    payload = AuthHandler.decode_jwt(
+        token=authorization[len(AUTH_PREFIX) :],
+        expected_type="access",
+    )
 
     if payload and payload["user_id"]:
-        try:
-            user = UserService(session=session).get_user_by_id(payload["user_id"])
-            return UserOutput(
-                id=user.id,
-                first_name=user.first_name,
-                last_name=user.last_name,
-                email=user.email,
-                role=user.role
-            )
-        except Exception as e:
-            raise e
+        return UserService(session=session).get_by_id(payload["user_id"])
     raise auth_exception
 
 
@@ -94,6 +67,7 @@ def require_permissions(*permission_codes: str):
     """
     Verifie que l'utilisateur courant possede toutes les permissions demandees.
     """
+
     def dependency(
         user: UserOutput = Depends(get_current_user),
         session: Session = Depends(get_db),

@@ -13,3 +13,19 @@ class BaseRepository:
 
     def __init__(self, session: Session) -> None:
         self.session = session
+
+    def _save(self, instance):
+        """
+        Ajoute si necessaire, commit, puis rafraichit l'instance.
+        """
+        self.session.add(instance)
+        self.session.commit()
+        self.session.refresh(instance)
+        return instance
+
+    def _delete(self, instance) -> None:
+        """
+        Supprime puis commit.
+        """
+        self.session.delete(instance)
+        self.session.commit()

@@ -1,8 +1,12 @@
-import type * as React from 'react';
 import type * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 import type { VariantProps } from 'class-variance-authority';
+import type * as React from 'react';
 
-import type { dropdownContentStyles, dropdownItemStyles, dropdownSubTriggerStyles } from './dropdown-menu.styles';
+import type {
+  dropdownContentStyles,
+  dropdownItemStyles,
+  dropdownSubTriggerStyles,
+} from './dropdown-menu.styles';
 
 export type DropdownMenuContentProps = React.ComponentPropsWithoutRef<
   typeof DropdownMenuPrimitive.Content

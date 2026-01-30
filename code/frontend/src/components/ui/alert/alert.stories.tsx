@@ -14,9 +14,7 @@ export const Default: Story = {
   render: () => (
     <Alert>
       <AlertTitle>Mise a jour disponible</AlertTitle>
-      <AlertDescription>
-        Votre espace a ete synchronise avec succes.
-      </AlertDescription>
+      <AlertDescription>Votre espace a ete synchronise avec succes.</AlertDescription>
     </Alert>
   ),
 };
@@ -25,9 +23,7 @@ export const Destructive: Story = {
   render: () => (
     <Alert variant="destructive">
       <AlertTitle>Erreur</AlertTitle>
-      <AlertDescription>
-        Une action est requise avant de continuer.
-      </AlertDescription>
+      <AlertDescription>Une action est requise avant de continuer.</AlertDescription>
     </Alert>
   ),
 };

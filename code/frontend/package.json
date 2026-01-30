@@ -78,6 +78,7 @@
     "eslint-config-next": "16.1.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-storybook": "^10.1.10",
     "husky": "^9.1.7",
     "jsdom": "^27.3.0",

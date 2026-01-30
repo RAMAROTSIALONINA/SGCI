@@ -3,15 +3,19 @@ Configuration de la base de donnees SQLAlchemy.
 On y cree le moteur, la session, et la base declarative.
 """
 
+from decouple import config
 from sqlalchemy import create_engine
+from sqlalchemy.orm import declarative_base, sessionmaker
 
-from sqlalchemy.ext.declarative import declarative_base
+SQLALCHEMY_DATABASE_URL = config(
+    "DATABASE_URL",
+    default="postgresql+psycopg://user:password@localhost:5433/postgres",
+)
 
-from sqlalchemy.orm import sessionmaker
-
-SQLALCHEMY_DATABASE_URL = "postgresql+psycopg://user:password@localhost:5433/postgres"
-
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL,
+    pool_pre_ping=True,
+)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

@@ -1,10 +1,10 @@
 """
 Email service for sending OTP codes and notifications.
 """
+
 from email.message import EmailMessage
 
 import aiosmtplib
-
 from decouple import config
 
 SMTP_HOST = config("SMTP_HOST")
@@ -22,9 +22,10 @@ async def send_otp_email(to_email: str, otp_code: str) -> None:
     msg["From"] = EMAIL_FROM
     msg["To"] = to_email
     msg["Subject"] = "Code de verification"
-    msg.set_content(f"Votre code de verification est: {otp_code} \n"
-                    f"Ce code est valide pour 5 minutes.\n\n"
-                    f"Si vous n'avez pas demande ce code, veuillez ignorer cet email."
+    msg.set_content(
+        f"Votre code de verification est: {otp_code} \n"
+        f"Ce code est valide pour 5 minutes.\n\n"
+        f"Si vous n'avez pas demande ce code, veuillez ignorer cet email."
     )
 
     await aiosmtplib.send(

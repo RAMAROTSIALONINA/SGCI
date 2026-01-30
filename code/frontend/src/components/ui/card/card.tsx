@@ -14,11 +14,7 @@ import type { CardProps, CardSectionProps } from './card.types';
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, padding, interactive, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn(cardStyles({ padding, interactive }), className)}
-      {...props}
-    />
+    <div ref={ref} className={cn(cardStyles({ padding, interactive }), className)} {...props} />
   ),
 );
 Card.displayName = 'Card';
@@ -39,11 +35,7 @@ CardTitle.displayName = 'CardTitle';
 
 const CardDescription = React.forwardRef<HTMLDivElement, CardSectionProps>(
   ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn(cardDescriptionStyles(), className)}
-      {...props}
-    />
+    <div ref={ref} className={cn(cardDescriptionStyles(), className)} {...props} />
   ),
 );
 CardDescription.displayName = 'CardDescription';
@@ -62,11 +54,4 @@ const CardFooter = React.forwardRef<HTMLDivElement, CardSectionProps>(
 );
 CardFooter.displayName = 'CardFooter';
 
-export {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-};
+export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle };

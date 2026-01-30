@@ -1,7 +1,7 @@
 'use client';
 
-import * as React from 'react';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
+import * as React from 'react';
 
 import { cn } from '@/components/utils';
 
@@ -10,94 +10,93 @@ import type { TabsListProps, TabsTriggerProps } from './tabs.types';
 
 const Tabs = TabsPrimitive.Root;
 
-const TabsList = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.List>,
-  TabsListProps
->(({ className, size, style, ...props }, ref) => {
-  const listRef = React.useRef<React.ElementRef<typeof TabsPrimitive.List>>(null);
+const TabsList = React.forwardRef<React.ElementRef<typeof TabsPrimitive.List>, TabsListProps>(
+  ({ className, size, style, ...props }, ref) => {
+    const listRef = React.useRef<React.ElementRef<typeof TabsPrimitive.List>>(null);
 
-  const setRefs = React.useCallback(
-    (node: React.ElementRef<typeof TabsPrimitive.List> | null) => {
-      listRef.current = node;
-      if (typeof ref === 'function') {
-        ref(node);
-      } else if (ref) {
-        ref.current = node;
+    const setRefs = React.useCallback(
+      (node: React.ElementRef<typeof TabsPrimitive.List> | null) => {
+        listRef.current = node;
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          ref.current = node;
+        }
+      },
+      [ref],
+    );
+
+    const updateIndicator = React.useCallback(() => {
+      const list = listRef.current;
+      if (!list) return;
+
+      const activeTrigger = list.querySelector<HTMLElement>('[data-state="active"]');
+      if (!activeTrigger) {
+        list.style.setProperty('--tabs-indicator-x', '0px');
+        list.style.setProperty('--tabs-indicator-w', '0px');
+        list.style.setProperty('--tabs-indicator-opacity', '0');
+        return;
       }
-    },
-    [ref],
-  );
 
-  const updateIndicator = React.useCallback(() => {
-    const list = listRef.current;
-    if (!list) return;
+      const listRect = list.getBoundingClientRect();
+      const activeRect = activeTrigger.getBoundingClientRect();
+      const x = activeRect.left - listRect.left;
+      const width = activeRect.width;
 
-    const activeTrigger = list.querySelector<HTMLElement>('[data-state="active"]');
-    if (!activeTrigger) {
-      list.style.setProperty('--tabs-indicator-x', '0px');
-      list.style.setProperty('--tabs-indicator-w', '0px');
-      list.style.setProperty('--tabs-indicator-opacity', '0');
-      return;
-    }
+      list.style.setProperty('--tabs-indicator-x', `${x}px`);
+      list.style.setProperty('--tabs-indicator-w', `${width}px`);
+      list.style.setProperty('--tabs-indicator-opacity', '1');
+    }, []);
 
-    const listRect = list.getBoundingClientRect();
-    const activeRect = activeTrigger.getBoundingClientRect();
-    const x = activeRect.left - listRect.left;
-    const width = activeRect.width;
+    React.useLayoutEffect(() => {
+      const list = listRef.current;
+      if (!list) return;
 
-    list.style.setProperty('--tabs-indicator-x', `${x}px`);
-    list.style.setProperty('--tabs-indicator-w', `${width}px`);
-    list.style.setProperty('--tabs-indicator-opacity', '1');
-  }, []);
+      updateIndicator();
 
-  React.useLayoutEffect(() => {
-    const list = listRef.current;
-    if (!list) return;
+      let resizeObserver: ResizeObserver | null = null;
+      if (typeof ResizeObserver !== 'undefined') {
+        resizeObserver = new ResizeObserver(updateIndicator);
+        resizeObserver.observe(list);
+      }
 
-    updateIndicator();
+      let mutationObserver: MutationObserver | null = null;
+      if (typeof MutationObserver !== 'undefined') {
+        mutationObserver = new MutationObserver(updateIndicator);
+        mutationObserver.observe(list, {
+          attributes: true,
+          subtree: true,
+          attributeFilter: ['data-state'],
+        });
+      }
 
-    let resizeObserver: ResizeObserver | null = null;
-    if (typeof ResizeObserver !== 'undefined') {
-      resizeObserver = new ResizeObserver(updateIndicator);
-      resizeObserver.observe(list);
-    }
+      const handleResize = () => updateIndicator();
+      window.addEventListener('resize', handleResize);
 
-    let mutationObserver: MutationObserver | null = null;
-    if (typeof MutationObserver !== 'undefined') {
-      mutationObserver = new MutationObserver(updateIndicator);
-      mutationObserver.observe(list, {
-        attributes: true,
-        subtree: true,
-        attributeFilter: ['data-state'],
-      });
-    }
+      return () => {
+        resizeObserver?.disconnect();
+        mutationObserver?.disconnect();
+        window.removeEventListener('resize', handleResize);
+      };
+    }, [updateIndicator]);
 
-    const handleResize = () => updateIndicator();
-    window.addEventListener('resize', handleResize);
+    const listStyle = {
+      '--tabs-indicator-x': '0px',
+      '--tabs-indicator-w': '0px',
+      '--tabs-indicator-opacity': 0,
+      ...style,
+    } as React.CSSProperties;
 
-    return () => {
-      resizeObserver?.disconnect();
-      mutationObserver?.disconnect();
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [updateIndicator]);
-
-  const listStyle = {
-    '--tabs-indicator-x': '0px',
-    '--tabs-indicator-w': '0px',
-    '--tabs-indicator-opacity': 0,
-    ...style,
-  } as React.CSSProperties;
-
-  return (
-    <TabsPrimitive.List
-      ref={setRefs}
-      className={cn(tabsListStyles({ size }), className)}
-      style={listStyle}
-      {...props}
-    />
-  );
-});
+    return (
+      <TabsPrimitive.List
+        ref={setRefs}
+        className={cn(tabsListStyles({ size }), className)}
+        style={listStyle}
+        {...props}
+      />
+    );
+  },
+);
 TabsList.displayName = TabsPrimitive.List.displayName;
 
 const TabsTrigger = React.forwardRef<
@@ -116,12 +115,8 @@ const TabsContent = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
 >(({ className, ...props }, ref) => (
-  <TabsPrimitive.Content
-    ref={ref}
-    className={cn(tabsContentStyles(), className)}
-    {...props}
-  />
+  <TabsPrimitive.Content ref={ref} className={cn(tabsContentStyles(), className)} {...props} />
 ));
 TabsContent.displayName = TabsPrimitive.Content.displayName;
 
-export { Tabs, TabsList, TabsTrigger, TabsContent };
+export { Tabs, TabsContent, TabsList, TabsTrigger };

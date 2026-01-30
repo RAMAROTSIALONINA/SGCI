@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
+import * as React from 'react';
 
 import { cn } from '@/components/utils';
 
@@ -30,10 +30,7 @@ const SpinnerIcon = ({ className }: { className?: string }) => (
 );
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    { className, variant, size, asChild = false, isLoading = false, children, ...props },
-    ref,
-  ) => {
+  ({ className, variant, size, asChild = false, isLoading = false, children, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
     const disabled = props.disabled || isLoading;
 

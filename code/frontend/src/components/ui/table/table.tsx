@@ -7,8 +7,8 @@ import {
   tableCaptionStyles,
   tableCellStyles,
   tableFooterStyles,
-  tableHeadStyles,
   tableHeaderStyles,
+  tableHeadStyles,
   tableRowStyles,
   tableStyles,
   tableWrapperStyles,
@@ -22,13 +22,11 @@ import type {
   TableSectionProps,
 } from './table.types';
 
-const Table = React.forwardRef<HTMLTableElement, TableProps>(
-  ({ className, ...props }, ref) => (
-    <div className={tableWrapperStyles()}>
-      <table ref={ref} className={cn(tableStyles(), className)} {...props} />
-    </div>
-  ),
-);
+const Table = React.forwardRef<HTMLTableElement, TableProps>(({ className, ...props }, ref) => (
+  <div className={tableWrapperStyles()}>
+    <table ref={ref} className={cn(tableStyles(), className)} {...props} />
+  </div>
+));
 Table.displayName = 'Table';
 
 const TableHeader = React.forwardRef<HTMLTableSectionElement, TableSectionProps>(
@@ -47,11 +45,7 @@ TableBody.displayName = 'TableBody';
 
 const TableFooter = React.forwardRef<HTMLTableSectionElement, TableSectionProps>(
   ({ className, ...props }, ref) => (
-    <tfoot
-      ref={ref}
-      className={cn(tableFooterStyles(), className)}
-      {...props}
-    />
+    <tfoot ref={ref} className={cn(tableFooterStyles(), className)} {...props} />
   ),
 );
 TableFooter.displayName = 'TableFooter';
@@ -79,22 +73,9 @@ TableCell.displayName = 'TableCell';
 
 const TableCaption = React.forwardRef<HTMLTableCaptionElement, TableCaptionProps>(
   ({ className, ...props }, ref) => (
-    <caption
-      ref={ref}
-      className={cn(tableCaptionStyles(), className)}
-      {...props}
-    />
+    <caption ref={ref} className={cn(tableCaptionStyles(), className)} {...props} />
   ),
 );
 TableCaption.displayName = 'TableCaption';
 
-export {
-  Table,
-  TableHeader,
-  TableBody,
-  TableFooter,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableCaption,
-};
+export { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow };

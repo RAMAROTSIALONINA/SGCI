@@ -1,4 +1,4 @@
-import type { RolePermission } from '@/types/role-permission';
+import type { RolePermission } from '../types/role-permission';
 
 export const rolePermissions: RolePermission[] = [
   {

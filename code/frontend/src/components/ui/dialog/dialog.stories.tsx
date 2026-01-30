@@ -75,16 +75,13 @@ export const WithLongContent: Story = {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Conditions</DialogTitle>
-          <DialogDescription>
-            Exemple de contenu plus dense avec scroll minimal.
-          </DialogDescription>
+          <DialogDescription>Exemple de contenu plus dense avec scroll minimal.</DialogDescription>
         </DialogHeader>
         <div className="space-y-2 text-sm text-muted-foreground">
           {Array.from({ length: 6 }).map((_, index) => (
             <p key={index}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-              finibus, sapien vitae suscipit feugiat, arcu magna convallis orci,
-              vitae tempus ligula lacus non erat.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus finibus, sapien vitae
+              suscipit feugiat, arcu magna convallis orci, vitae tempus ligula lacus non erat.
             </p>
           ))}
         </div>

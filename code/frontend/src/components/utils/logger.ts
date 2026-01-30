@@ -13,9 +13,7 @@ const levelWeight: Record<LogLevel, number> = {
 };
 
 const defaultLevel: LogLevel =
-  typeof process !== 'undefined' && process.env.NODE_ENV === 'production'
-    ? 'info'
-    : 'debug';
+  typeof process !== 'undefined' && process.env.NODE_ENV === 'production' ? 'info' : 'debug';
 
 const shouldLog = (requested: LogLevel, current: LogLevel) =>
   levelWeight[requested] >= levelWeight[current];
@@ -27,20 +25,16 @@ export function createLogger(options: LoggerOptions = {}) {
 
   return {
     debug: (...args: unknown[]) => {
-      if (shouldLog('debug', level))
-        console.debug(formatNamespace(namespace), ...args);
+      if (shouldLog('debug', level)) console.debug(formatNamespace(namespace), ...args);
     },
     info: (...args: unknown[]) => {
-      if (shouldLog('info', level))
-        console.info(formatNamespace(namespace), ...args);
+      if (shouldLog('info', level)) console.info(formatNamespace(namespace), ...args);
     },
     warn: (...args: unknown[]) => {
-      if (shouldLog('warn', level))
-        console.warn(formatNamespace(namespace), ...args);
+      if (shouldLog('warn', level)) console.warn(formatNamespace(namespace), ...args);
     },
     error: (...args: unknown[]) => {
-      if (shouldLog('error', level))
-        console.error(formatNamespace(namespace), ...args);
+      if (shouldLog('error', level)) console.error(formatNamespace(namespace), ...args);
     },
   };
 }

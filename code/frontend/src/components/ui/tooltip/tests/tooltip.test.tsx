@@ -1,12 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '..';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '..';
 
 describe('Tooltip', () => {
   it('shows content on hover', async () => {
@@ -22,8 +17,6 @@ describe('Tooltip', () => {
     );
 
     fireEvent.focus(screen.getByText('Hover me'));
-    expect(await screen.findByRole('tooltip')).toHaveTextContent(
-      'Tooltip content',
-    );
+    expect(await screen.findByRole('tooltip')).toHaveTextContent('Tooltip content');
   });
 });

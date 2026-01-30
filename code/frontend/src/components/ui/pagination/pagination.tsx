@@ -1,8 +1,8 @@
-import * as React from 'react';
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
+import * as React from 'react';
 
-import { cn } from '@/components/utils';
 import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/components/utils';
 
 import {
   paginationEllipsisStyles,
@@ -41,12 +41,7 @@ const PaginationItem = React.forwardRef<HTMLLIElement, PaginationItemProps>(
 );
 PaginationItem.displayName = 'PaginationItem';
 
-const PaginationLink = ({
-  className,
-  isActive,
-  size = 'icon',
-  ...props
-}: PaginationLinkProps) => (
+const PaginationLink = ({ className, isActive, size = 'icon', ...props }: PaginationLinkProps) => (
   <a
     aria-current={isActive ? 'page' : undefined}
     className={cn(
@@ -77,10 +72,7 @@ const PaginationPrevious = ({
 );
 PaginationPrevious.displayName = 'PaginationPrevious';
 
-const PaginationNext = ({
-  className,
-  ...props
-}: React.ComponentProps<typeof PaginationLink>) => (
+const PaginationNext = ({ className, ...props }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to next page"
     size="default"
@@ -93,15 +85,8 @@ const PaginationNext = ({
 );
 PaginationNext.displayName = 'PaginationNext';
 
-const PaginationEllipsis = ({
-  className,
-  ...props
-}: React.ComponentProps<'span'>) => (
-  <span
-    aria-hidden
-    className={cn(paginationEllipsisStyles(), className)}
-    {...props}
-  >
+const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<'span'>) => (
+  <span aria-hidden className={cn(paginationEllipsisStyles(), className)} {...props}>
     <MoreHorizontal className="h-4 w-4" />
     <span className="sr-only">More pages</span>
   </span>
@@ -111,9 +96,9 @@ PaginationEllipsis.displayName = 'PaginationEllipsis';
 export {
   Pagination,
   PaginationContent,
-  PaginationLink,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationNext,
   PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
 };

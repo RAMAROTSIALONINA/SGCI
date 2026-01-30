@@ -13,15 +13,11 @@ class HashHelper(object):
         Compare un mot de passe en clair avec son hash stocke.
         Renvoie True si c'est le meme, sinon False.
         """
-        return checkpw(
-            plain_password.encode("utf-8"),
-            hashed_password.encode("utf-8"))
+        return checkpw(plain_password.encode("utf-8"), hashed_password.encode("utf-8"))
 
     @staticmethod
     def get_password_hash(plain_password: str):
         """
         Transforme un mot de passe en clair en hash pour le stocker en base.
         """
-        return hashpw(
-            plain_password.encode("utf-8"),
-            gensalt()).decode("utf-8")
+        return hashpw(plain_password.encode("utf-8"), gensalt()).decode("utf-8")

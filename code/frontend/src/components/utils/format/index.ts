@@ -34,9 +34,5 @@ export function formatCurrency(
   locale = DEFAULT_LOCALE,
   options?: Intl.NumberFormatOptions,
 ) {
-  return formatNumber(
-    value,
-    { style: 'currency', currency, ...options },
-    locale,
-  );
+  return formatNumber(value, { style: 'currency', currency, ...options }, locale);
 }

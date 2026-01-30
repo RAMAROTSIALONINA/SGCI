@@ -53,12 +53,7 @@ export const WithIcon: Story = {
   args: {
     children: (
       <span className="inline-flex items-center gap-2">
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 24 24"
-          className="size-4 stroke-[1.5]"
-          fill="none"
-        >
+        <svg aria-hidden="true" viewBox="0 0 24 24" className="size-4 stroke-[1.5]" fill="none">
           <path
             d="M5 12h14M12 5l7 7-7 7"
             stroke="currentColor"
@@ -92,12 +87,7 @@ export const Sizes: Story = {
       <Button size="default">Default</Button>
       <Button size="lg">Large</Button>
       <Button size="icon" aria-label="Icon only">
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 24 24"
-          className="size-5 stroke-[1.5]"
-          fill="none"
-        >
+        <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5 stroke-[1.5]" fill="none">
           <path
             d="M12 5v14M5 12h14"
             stroke="currentColor"

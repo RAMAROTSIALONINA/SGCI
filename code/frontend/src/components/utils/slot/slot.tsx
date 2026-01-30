@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { Slot as RadixSlot } from '@radix-ui/react-slot';
+import * as React from 'react';
 
 type SlotProps = React.HTMLAttributes<HTMLElement> & {
   as?: React.ElementType;

@@ -1,8 +1,8 @@
 'use client';
 
-import * as React from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
+import * as React from 'react';
 
 import { cn } from '@/components/utils';
 
@@ -31,11 +31,7 @@ const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   DialogOverlayProps
 >(({ className, ...props }, ref) => (
-  <DialogPrimitive.Overlay
-    ref={ref}
-    className={cn(dialogOverlayStyles(), className)}
-    {...props}
-  />
+  <DialogPrimitive.Overlay ref={ref} className={cn(dialogOverlayStyles(), className)} {...props} />
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
@@ -45,11 +41,7 @@ const DialogContent = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <DialogPortal>
     <DialogOverlay />
-    <DialogPrimitive.Content
-      ref={ref}
-      className={cn(dialogContentStyles(), className)}
-      {...props}
-    >
+    <DialogPrimitive.Content ref={ref} className={cn(dialogContentStyles(), className)} {...props}>
       {children}
       <DialogPrimitive.Close className={dialogCloseButtonStyles()}>
         <X className="size-4" aria-hidden="true" />
@@ -60,18 +52,12 @@ const DialogContent = React.forwardRef<
 ));
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
-const DialogHeader = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
+const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
   <div className={cn(dialogHeaderStyles(), className)} {...props} />
 );
 DialogHeader.displayName = 'DialogHeader';
 
-const DialogFooter = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
+const DialogFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
   <div className={cn(dialogFooterStyles(), className)} {...props} />
 );
 DialogFooter.displayName = 'DialogFooter';
@@ -80,11 +66,7 @@ const DialogTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
   DialogTitleProps
 >(({ className, ...props }, ref) => (
-  <DialogPrimitive.Title
-    ref={ref}
-    className={cn(dialogTitleStyles(), className)}
-    {...props}
-  />
+  <DialogPrimitive.Title ref={ref} className={cn(dialogTitleStyles(), className)} {...props} />
 ));
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
 
@@ -102,13 +84,13 @@ DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
 export {
   Dialog,
-  DialogPortal,
-  DialogOverlay,
-  DialogTrigger,
   DialogClose,
   DialogContent,
-  DialogHeader,
-  DialogFooter,
-  DialogTitle,
   DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
 };

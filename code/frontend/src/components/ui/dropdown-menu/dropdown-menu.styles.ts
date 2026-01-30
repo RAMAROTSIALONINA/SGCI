@@ -37,11 +37,15 @@ export const dropdownSubTriggerStyles = cva(
   },
 );
 
-export const dropdownLabelStyles = cva('px-3 py-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground');
+export const dropdownLabelStyles = cva(
+  'px-3 py-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground',
+);
 
 export const dropdownSeparatorStyles = cva('my-1 h-px bg-border/70');
 
-export const dropdownShortcutStyles = cva('ml-auto text-xs uppercase tracking-[0.2em] text-muted-foreground/70');
+export const dropdownShortcutStyles = cva(
+  'ml-auto text-xs uppercase tracking-[0.2em] text-muted-foreground/70',
+);
 
 export const dropdownCheckboxItemStyles = cva(
   'relative flex cursor-default select-none items-center rounded-xl py-2 pl-9 pr-3 text-sm font-medium outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',

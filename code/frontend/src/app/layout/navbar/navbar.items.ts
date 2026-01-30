@@ -1,9 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
-import {
-  LayoutDashboard,
-  Settings,
-  UsersRound,
-} from 'lucide-react';
+import { Bell, History, LayoutDashboard, Settings, UsersRound } from 'lucide-react';
 
 type NavItem = {
   label: string;
@@ -26,8 +22,18 @@ export const primaryItems: NavItem[] = [
 
 export const secondaryItems: NavItem[] = [
   {
-    label: 'Settings',
+    label: 'Parametre',
     href: '/dashboard/settings',
     icon: Settings,
+  },
+  {
+    label: 'Notifications',
+    href: '/notifications',
+    icon: Bell,
+  },
+  {
+    label: 'Historique',
+    href: '/historique',
+    icon: History,
   },
 ];

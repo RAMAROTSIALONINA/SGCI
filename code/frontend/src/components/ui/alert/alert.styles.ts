@@ -16,10 +16,6 @@ export const alertVariants = cva(
   },
 );
 
-export const alertTitleStyles = cva(
-  'mb-1 text-sm font-semibold leading-none tracking-tight',
-);
+export const alertTitleStyles = cva('mb-1 text-sm font-semibold leading-none tracking-tight');
 
-export const alertDescriptionStyles = cva(
-  'text-sm text-muted-foreground [&_p]:leading-relaxed',
-);
+export const alertDescriptionStyles = cva('text-sm text-muted-foreground [&_p]:leading-relaxed');

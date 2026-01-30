@@ -2,10 +2,10 @@
 Modele SQLAlchemy pour la table des permissions.
 Il decrit les colonnes qui seront creees en base.
 """
-from sqlalchemy import Column, Integer, String, Boolean
-from sqlalchemy.orm import relationship
 
 from app.core.database import Base
+from sqlalchemy import Boolean, Column, Integer, String
+from sqlalchemy.orm import relationship
 
 
 class Permission(Base):
@@ -13,6 +13,7 @@ class Permission(Base):
     Represente une permission en base de donnees.
     Chaque attribut devient une colonne dans la table "Permissions".
     """
+
     __tablename__ = "Permissions"
     id = Column(Integer, primary_key=True)
     code = Column(String(80), unique=True, index=True, nullable=False)

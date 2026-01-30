@@ -3,5 +3,5 @@ export type UserRecord = {
   firstName: string;
   lastName: string;
   email: string;
-  createdByAdmin?: boolean;
+  canDelete?: boolean;
 };

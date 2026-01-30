@@ -30,9 +30,7 @@ export const Default: Story = {
       <SheetContent side="right">
         <SheetHeader>
           <SheetTitle>Sheet premium</SheetTitle>
-          <SheetDescription>
-            Un panneau latéral élégant avec overlay doux.
-          </SheetDescription>
+          <SheetDescription>Un panneau latéral élégant avec overlay doux.</SheetDescription>
         </SheetHeader>
         <div className="space-y-3">
           <label className="text-sm font-medium">

@@ -29,7 +29,9 @@ export const selectViewportStyles = cva('p-1');
 export const selectScrollButtonStyles = cva(
   'flex cursor-default items-center justify-center py-1 text-muted-foreground',
 );
-export const selectLabelStyles = cva('px-3 py-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground');
+export const selectLabelStyles = cva(
+  'px-3 py-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground',
+);
 export const selectItemStyles = cva(
   'relative flex w-full cursor-default select-none items-center gap-2 rounded-xl py-2 pl-3 pr-8 text-sm font-medium outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
 );

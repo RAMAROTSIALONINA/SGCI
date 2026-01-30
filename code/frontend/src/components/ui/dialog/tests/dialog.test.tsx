@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
+import { Button } from '../../button';
 import {
   Dialog,
   DialogClose,
@@ -10,7 +11,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '..';
-import { Button } from '../../button';
 
 describe('Dialog', () => {
   it('opens and closes via trigger and close button', async () => {

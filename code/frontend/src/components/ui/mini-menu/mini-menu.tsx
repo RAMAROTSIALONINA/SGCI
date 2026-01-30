@@ -28,8 +28,8 @@ export function MiniMenu({
         const handleClick = onItemClick
           ? () => onItemClick(item)
           : href && !item.disabled
-              ? () => router.push(href)
-              : undefined;
+            ? () => router.push(href)
+            : undefined;
 
         return (
           <Button

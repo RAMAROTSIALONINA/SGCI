@@ -5,20 +5,21 @@ export const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: 'border-transparent bg-primary/90 text-primary-foreground shadow-soft hover:bg-primary',
+        default:
+          'border-transparent bg-primary/90 text-primary-foreground shadow-soft hover:bg-primary',
         secondary:
           'border-transparent bg-secondary text-secondary-foreground shadow-soft hover:bg-secondary/80',
-        muted:
-          'border border-border/70 bg-surface-muted text-foreground/80 hover:border-border',
+        muted: 'border border-border/70 bg-surface-muted text-foreground/80 hover:border-border',
         destructive:
           'border-transparent bg-destructive text-destructive-foreground shadow-soft hover:bg-destructive/90',
-        outline:
-          'border border-border/70 bg-transparent text-foreground hover:border-border',
+        outline: 'border border-border/70 bg-transparent text-foreground hover:border-border',
       },
       tone: {
-        success: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-100',
-        info: 'bg-blue-100 text-blue-800 dark:bg-blue-500/15 dark:text-blue-100',
-        warning: 'bg-amber-100 text-amber-900 dark:bg-amber-500/20 dark:text-amber-50',
+        success:
+          'bg-[color:rgb(var(--palette-primary-rgb)_/_0.18)] !text-foreground dark:bg-[color:rgb(var(--palette-primary-rgb)_/_0.28)] dark:!text-foreground',
+        info: 'bg-[color:rgb(var(--palette-accent-rgb)_/_0.18)] !text-foreground dark:bg-[color:rgb(var(--palette-accent-rgb)_/_0.28)] dark:!text-foreground',
+        warning:
+          'bg-[color:rgb(var(--palette-secondary-rgb)_/_0.2)] !text-foreground dark:bg-[color:rgb(var(--palette-secondary-rgb)_/_0.3)] dark:!text-foreground',
       },
     },
     compoundVariants: [

@@ -1,14 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '..';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '..';
 
 describe('Card', () => {
   it('renders header, content and footer with premium structure', () => {

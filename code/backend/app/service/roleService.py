@@ -2,11 +2,15 @@
 Couche service pour les roles.
 Ici on met la logique metier avant d'appeler la base de donnees.
 """
+
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from app.db.repository.roleRepo import RoleRepository
 from app.db.repository.permissionRepo import PermissionRepository
+from app.db.repository.roleRepo import RoleRepository
+from app.db.schema.user import UserOutput
+from app.service.historyService import HistoryService
+from app.util.roles.role_utils import is_superadmin_role, normalize_role
 
 ROLE_SEEDS = [
     {
@@ -59,7 +63,6 @@ ROLE_SEEDS = [
     },
 ]
 
-SUPERADMIN_ROLE_KEYS = {"superadmin", "super_admin"}
 FORBIDDEN_ASSISTANT_PERMISSION_CODES = {"roles.manage", "assistants.manage"}
 
 ADMIN_PERMISSION_CODES = [
@@ -446,22 +449,6 @@ ROLE_PERMISSION_SEEDS = {
 }
 
 
-def normalize_role(role: str | None) -> str:
-    """
-    Normalise un role pour la comparaison (minuscule, espaces -> underscore).
-    """
-    if not role:
-        return ""
-    return role.strip().lower().replace(" ", "_")
-
-
-def is_superadmin_role(role: str | None) -> bool:
-    """
-    Indique si le role est super admin.
-    """
-    return normalize_role(role) in SUPERADMIN_ROLE_KEYS
-
-
 class RoleService:
     """
     Regroupe les actions liees aux roles.
@@ -470,6 +457,7 @@ class RoleService:
     def __init__(self, session: Session):
         self.__roleRepository = RoleRepository(session=session)
         self.__permissionRepository = PermissionRepository(session=session)
+        self.__historyService = HistoryService(session=session)
 
     def list_roles(self):
         """
@@ -481,10 +469,7 @@ class RoleService:
         """
         Recupere un role par code.
         """
-        role = self.__roleRepository.get_by_code(code=normalize_role(role_code))
-        if not role:
-            raise HTTPException(status_code=404, detail="Role not found.")
-        return role
+        return self.__roleRepository.get_by_code_or_404(normalize_role(role_code))
 
     def list_permissions(self):
         """
@@ -496,9 +481,7 @@ class RoleService:
         """
         Liste les permissions associees a un role.
         """
-        role = self.__roleRepository.get_by_code(code=normalize_role(role_code))
-        if not role:
-            raise HTTPException(status_code=404, detail="Role not found.")
+        role = self.__roleRepository.get_by_code_or_404(normalize_role(role_code))
         return self.__permissionRepository.list_permissions_for_role(role.id)
 
     def get_role_permission_codes(self, role_code: str) -> set[str]:
@@ -515,15 +498,17 @@ class RoleService:
         """
         Permissions que l'utilisateur courant peut assigner a un assistant.
         """
-        if is_superadmin_role(user_role):
-            return set(
-                code for code in ALL_PERMISSION_CODES
-                if code not in FORBIDDEN_ASSISTANT_PERMISSION_CODES
-            )
-        current_codes = self.get_role_permission_codes(normalize_role(user_role))
-        return set(code for code in current_codes if code not in FORBIDDEN_ASSISTANT_PERMISSION_CODES)
+        return self._get_assignable_permission_codes(
+            creator_role=user_role,
+            is_assistant=True,
+        )
 
-    def create_role(self, role_data: dict, creator_role: str | None):
+    def create_role(
+        self,
+        role_data: dict,
+        creator_role: str | None,
+        creator_user_id: int | None,
+    ):
         """
         Cree un role non systeme (role d'assistant).
         """
@@ -532,7 +517,7 @@ class RoleService:
             raise HTTPException(status_code=400, detail="Role code is required.")
         if not role_data.get("name"):
             raise HTTPException(status_code=400, detail="Role name is required.")
-        if self.__roleRepository.get_by_code(code=code):
+        if self.__roleRepository.exists_by_code(code):
             raise HTTPException(status_code=400, detail="Role code already exists.")
 
         is_assistant = bool(role_data.get("is_assistant", True))
@@ -557,6 +542,7 @@ class RoleService:
             "level": role_data.get("level", 6),
             "is_system": False,
             "is_assistant": is_assistant,
+            "created_by_id": creator_user_id,
         }
         role = self.__roleRepository.add_role(role_payload)
         self.__roleRepository.session.flush()
@@ -567,29 +553,37 @@ class RoleService:
         )
         self.__roleRepository.session.commit()
         self.__roleRepository.session.refresh(role)
+        self.__historyService.log_action(
+            action="role.create",
+            actor_id=creator_user_id,
+            actor_role=creator_role,
+            entity_type="role",
+            entity_id=role.id,
+            module="admin",
+            description=f"Creation role {role.code}",
+            meta={
+                "role_code": role.code,
+                "role_name": role.name,
+                "is_assistant": role.is_assistant,
+            },
+        )
         return role
 
-    def set_role_permissions(self, role_code: str, permission_codes: list[str], creator_role: str | None):
+    def set_role_permissions(
+        self,
+        role_code: str,
+        permission_codes: list[str],
+        current_user: UserOutput,
+    ):
         """
         Remplace les permissions d'un role existant.
         """
-        role = self.__roleRepository.get_by_code(code=normalize_role(role_code))
-        if not role:
-            raise HTTPException(status_code=404, detail="Role not found.")
-        if role.is_system and not is_superadmin_role(creator_role):
-            raise HTTPException(
-                status_code=403,
-                detail="Only super admin can update system roles.",
-            )
-        if not role.is_assistant and not is_superadmin_role(creator_role):
-            raise HTTPException(
-                status_code=403,
-                detail="Only super admin can update non-assistant roles.",
-            )
+        role = self.__roleRepository.get_by_code_or_404(normalize_role(role_code))
+        self._ensure_can_manage_role(role=role, current_user=current_user)
 
         self._ensure_assignable_permissions(
             permission_codes=permission_codes,
-            creator_role=creator_role,
+            creator_role=current_user.role,
             is_assistant=role.is_assistant,
         )
         permissions = self._get_permissions_by_codes(permission_codes)
@@ -599,7 +593,107 @@ class RoleService:
             permission_ids=[permission.id for permission in permissions],
         )
         self.__roleRepository.session.commit()
+        self.__historyService.log_action(
+            action="role.permissions.update",
+            actor_id=current_user.id,
+            actor_role=current_user.role,
+            entity_type="role",
+            entity_id=role.id,
+            module="admin",
+            description=f"Mise a jour permissions role {role.code}",
+            meta={
+                "role_code": role.code,
+                "permission_codes": permission_codes,
+            },
+        )
         return role
+
+    def update_role(
+        self,
+        role_code: str,
+        updates: dict,
+        current_user: UserOutput,
+    ):
+        """
+        Met a jour un role existant (nom, description, permissions).
+        """
+        role = self.__roleRepository.get_by_code_or_404(normalize_role(role_code))
+        self._ensure_can_manage_role(role=role, current_user=current_user)
+
+        updated_fields: list[str] = []
+        name = updates.get("name")
+        if name is not None:
+            trimmed = name.strip()
+            if not trimmed:
+                raise HTTPException(status_code=400, detail="Role name is required.")
+            role.name = trimmed
+            updated_fields.append("name")
+
+        if "description" in updates:
+            description = updates.get("description")
+            role.description = description if description else None
+            updated_fields.append("description")
+
+        if updates.get("permission_codes") is not None:
+            permission_codes = updates.get("permission_codes") or []
+            self._ensure_assignable_permissions(
+                permission_codes=permission_codes,
+                creator_role=current_user.role,
+                is_assistant=role.is_assistant,
+            )
+            permissions = self._get_permissions_by_codes(permission_codes)
+            self.__permissionRepository.set_role_permissions(
+                role_id=role.id,
+                permission_ids=[permission.id for permission in permissions],
+            )
+            updated_fields.append("permission_codes")
+
+        self.__roleRepository.session.commit()
+        self.__roleRepository.session.refresh(role)
+        if updated_fields:
+            self.__historyService.log_action(
+                action="role.update",
+                actor_id=current_user.id,
+                actor_role=current_user.role,
+                entity_type="role",
+                entity_id=role.id,
+                module="admin",
+                description=f"Mise a jour role {role.code}",
+                meta={
+                    "role_code": role.code,
+                    "updated_fields": updated_fields,
+                    "permission_codes": updates.get("permission_codes"),
+                },
+            )
+        return role
+
+    def delete_role(self, role_code: str, current_user: UserOutput) -> None:
+        """
+        Supprime un role non systeme.
+        """
+        role = self.__roleRepository.get_by_code_or_404(normalize_role(role_code))
+        self._ensure_can_manage_role(role=role, current_user=current_user)
+
+        self.__permissionRepository.set_role_permissions(
+            role_id=role.id, permission_ids=[]
+        )
+        deleted_payload = {
+            "role_code": role.code,
+            "role_name": role.name,
+            "role_id": role.id,
+        }
+        self.__roleRepository.delete_role(role)
+        self.__roleRepository.session.commit()
+        self.__historyService.log_action(
+            action="role.delete",
+            actor_id=current_user.id,
+            actor_role=current_user.role,
+            entity_type="role",
+            entity_id=deleted_payload["role_id"],
+            module="admin",
+            description=f"Suppression role {deleted_payload['role_code']}",
+            meta=deleted_payload,
+        )
 
     def is_assistant_role(self, role_code: str | None) -> bool:
         """
@@ -703,20 +797,10 @@ class RoleService:
         """
         Verifie que les permissions sont assignables par l'utilisateur courant.
         """
-        if is_superadmin_role(creator_role):
-            assignable = set(ALL_PERMISSION_CODES)
-            if is_assistant:
-                assignable = {
-                    code for code in assignable
-                    if code not in FORBIDDEN_ASSISTANT_PERMISSION_CODES
-                }
-        else:
-            assignable = self.get_role_permission_codes(normalize_role(creator_role))
-            if is_assistant:
-                assignable = {
-                    code for code in assignable
-                    if code not in FORBIDDEN_ASSISTANT_PERMISSION_CODES
-                }
+        assignable = self._get_assignable_permission_codes(
+            creator_role=creator_role,
+            is_assistant=is_assistant,
+        )
         invalid = sorted(set(permission_codes) - set(assignable))
         if invalid:
             raise HTTPException(
@@ -728,7 +812,7 @@ class RoleService:
         """
         Recupere les permissions par code et verifie leur existence.
         """
-        permissions = self.__permissionRepository.get_by_codes(permission_codes)
+        permissions = self.__permissionRepository.get_by_codes(permission_codes or [])
         found = {permission.code for permission in permissions}
         missing = sorted(set(permission_codes) - found)
         if missing:
@@ -737,3 +821,42 @@ class RoleService:
                 detail=f"Unknown permission codes: {', '.join(missing)}",
             )
         return permissions
+
+    def _ensure_can_manage_role(self, role, current_user: UserOutput) -> None:
+        """
+        Verifie que l'utilisateur peut modifier ou supprimer un role.
+        """
+        if is_superadmin_role(current_user.role):
+            return
+        if role.is_system:
+            raise HTTPException(
+                status_code=403,
+                detail="Only super admin can manage system roles.",
+            )
+        if not role.is_assistant:
+            raise HTTPException(
+                status_code=403,
+                detail="Only super admin can manage non-assistant roles.",
+            )
+        if role.created_by_id != current_user.id:
+            raise HTTPException(
+                status_code=403,
+                detail="Only the creator admin can manage this role.",
+            )
+
+    def _get_assignable_permission_codes(
+        self,
+        creator_role: str | None,
+        is_assistant: bool,
+    ) -> set[str]:
+        if is_superadmin_role(creator_role):
+            assignable = set(ALL_PERMISSION_CODES)
+        else:
+            assignable = self.get_role_permission_codes(creator_role)
+        if is_assistant:
+            assignable = {
+                code
+                for code in assignable
+                if code not in FORBIDDEN_ASSISTANT_PERMISSION_CODES
+            }
+        return assignable

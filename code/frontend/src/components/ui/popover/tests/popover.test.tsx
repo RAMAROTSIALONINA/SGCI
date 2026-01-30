@@ -1,12 +1,8 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '..';
 import { Button } from '../../button';
+import { Popover, PopoverContent, PopoverTrigger } from '..';
 
 describe('Popover', () => {
   it('opens on trigger click', async () => {

@@ -1,4 +1,43 @@
 @layer utilities {
+  @keyframes soften-up {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 12px, 0) scale(0.985);
+      filter: blur(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+      filter: blur(0);
+    }
+  }
+
+  .animate-soften-up {
+    animation: soften-up 520ms var(--transition-smooth) both;
+    will-change: transform, opacity, filter;
+  }
+
+  .animate-soften-up-1 {
+    animation: soften-up 520ms var(--transition-smooth) 120ms both;
+    will-change: transform, opacity, filter;
+  }
+
+  .animate-soften-up-2 {
+    animation: soften-up 520ms var(--transition-smooth) 220ms both;
+    will-change: transform, opacity, filter;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-soften-up,
+    .animate-soften-up-1,
+    .animate-soften-up-2 {
+      animation: none;
+      transform: none;
+      opacity: 1;
+      filter: none;
+    }
+  }
+
   .shadow-soft {
     box-shadow: var(--shadow-soft);
   }
@@ -9,7 +48,7 @@
 
   .scrollbar-subtle {
     scrollbar-width: thin;
-    scrollbar-color: rgba(16, 120, 96, 0.35) transparent;
+    scrollbar-color: rgb(var(--palette-primary-rgb) / 0.35) transparent;
   }
 
   .scrollbar-subtle::-webkit-scrollbar {
@@ -22,12 +61,12 @@
 
   .scrollbar-subtle::-webkit-scrollbar-thumb {
     border-radius: 999px;
-    background-color: rgba(16, 120, 96, 0.35);
+    background-color: rgb(var(--palette-primary-rgb) / 0.35);
     border: 2px solid transparent;
     background-clip: content-box;
   }
 
   .scrollbar-subtle::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(16, 120, 96, 0.5);
+    background-color: rgb(var(--palette-primary-rgb) / 0.5);
   }
 }

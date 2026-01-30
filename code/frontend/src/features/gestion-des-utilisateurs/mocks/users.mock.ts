@@ -1,4 +1,4 @@
-import type { UserRecord } from '@/types/user-record';
+import type { UserRecord } from '../types/user-record';
 
 export const superAdmins: UserRecord[] = [
   {
@@ -30,20 +30,20 @@ export const assistants: UserRecord[] = [
     firstName: 'Nina',
     lastName: 'Morel',
     email: 'nina.morel@sgci.local',
-    createdByAdmin: true,
+    canDelete: true,
   },
   {
     id: 'assistant-2',
     firstName: 'Leo',
     lastName: 'Martin',
     email: 'leo.martin@sgci.local',
-    createdByAdmin: false,
+    canDelete: false,
   },
   {
     id: 'assistant-3',
     firstName: 'Ines',
     lastName: 'Faye',
     email: 'ines.faye@sgci.local',
-    createdByAdmin: true,
+    canDelete: true,
   },
 ];

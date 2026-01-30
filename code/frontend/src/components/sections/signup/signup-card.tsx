@@ -13,12 +13,8 @@ export function SignupCard() {
   return (
     <Card className="w-full max-w-md border-border/70 bg-card/90 shadow-soft-lg backdrop-blur">
       <CardHeader className="space-y-2 text-center">
-        <div className="text-xs font-semibold tracking-[0.3em] text-muted-foreground">
-          SGCI
-        </div>
-        <CardTitle className="text-2xl font-semibold">
-          Creer un compte
-        </CardTitle>
+        <div className="text-xs font-semibold tracking-[0.3em] text-muted-foreground">SGCI</div>
+        <CardTitle className="text-2xl font-semibold">Creer un compte</CardTitle>
         <CardDescription>
           Un design moderne et professionnel pour demarrer rapidement.
         </CardDescription>
@@ -28,21 +24,11 @@ export function SignupCard() {
           <div className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="last-name">Nom</Label>
-              <Input
-                id="last-name"
-                placeholder="Traore"
-                autoComplete="family-name"
-                size="lg"
-              />
+              <Input id="last-name" placeholder="Traore" autoComplete="family-name" size="lg" />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="first-name">Prenom</Label>
-              <Input
-                id="first-name"
-                placeholder="Awa"
-                autoComplete="given-name"
-                size="lg"
-              />
+              <Input id="first-name" placeholder="Awa" autoComplete="given-name" size="lg" />
             </div>
           </div>
 

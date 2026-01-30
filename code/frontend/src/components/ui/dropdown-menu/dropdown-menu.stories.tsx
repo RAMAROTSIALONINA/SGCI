@@ -69,9 +69,7 @@ export const WithSubmenu: Story = {
           </DropdownMenuSubContent>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
-        <DropdownMenuCheckboxItem checked>
-          Notifications
-        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem checked>Notifications</DropdownMenuCheckboxItem>
       </DropdownMenuContent>
     </DropdownMenu>
   ),
